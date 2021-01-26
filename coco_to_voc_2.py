@@ -157,7 +157,7 @@ class cleansing_data:
         voc_string_txt = ''
         for voc in self.list_voc:
             (bboxes, category_id, class_names, (h, w), target_save_image_path) = voc
-            voc_string_txt = voc_string_txt + '' + target_save_image_path
+            # voc_string_txt = voc_string_txt + '' + target_save_image_path
             for box, idx in zip(bboxes, category_id):
                 (xmin, ymin, wBox, hBox) = box
                 xmax = xmin + wBox
@@ -243,18 +243,17 @@ class cleansing_data:
                 elif name == 'Z':
                     id_voc = 37
 
+                voc_string_txt = voc_string_txt + '' + str(name) + ' ' \
+                                                        + str(int(xmin)) + ' ' \
+                										+ str(int(ymin)) + ' ' \
+            											+ str(int(xmax)) + ' ' \
+            											+ str(int(ymax)) + '' 
 
+                voc_string_txt = voc_string_txt + '\n'
 
-                voc_string_txt = voc_string_txt + ' ' + str(int(xmin)) + ',' \
-                										+ str(int(ymin)) + ',' \
-            											+ str(int(xmax)) + ',' \
-            											+ str(int(ymax)) + ',' \
-            											+ str(id_voc) + ' '
-
-            voc_string_txt = voc_string_txt + '\n'
-
-        with open('output.txt', 'w') as f:  # write increment idx last send
-            f.write("%s\n" % voc_string_txt)
+            with open('groundtruths/' + target_save_image_path + '.txt', 'w') as f:  # write increment idx last send
+                f.write("%s\n" % voc_string_txt)
+            voc_string_txt = ''
 
 
 
@@ -332,11 +331,14 @@ class cleansing_data:
         target_image_name = "image_" + str(self.num_data) + '.jpg' 
         target_save_image_path = self.fix_folder + '/' + target_image_name
 
-
         cv2.imwrite(target_save_image_path, anno['image'])
 
+        target_image_name = "image_" + str(self.num_data)
+        target_save_image_path = target_image_name
 
         h, w = anno['image'].shape[:2]
+
+        print(anno["bboxes"])
 
         # self.write_to_xml(anno, class_names, target_save_xml_path, anno['image'], target_image_name, target_save_image_path)
         self.list_voc.append((anno["bboxes"], anno["category_id"], class_names, (h, w), target_save_image_path))

@@ -10,10 +10,10 @@ __pycache__/
 # C extensions
 *.so
 
-data_coco/
-data_voc/
-data_image/
-frozen_model/
+# data_coco/
+# data_voc/
+# data_image/
+# frozen_model/
 
 # Distribution / packaging
 .Python
